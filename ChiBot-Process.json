@@ -1,0 +1,16 @@
+{
+    "script": "ChiBot.js",
+    "watch": [
+        "ChiBot.js",
+        "Commands/",
+        "Events/"
+    ],
+    "ignore_watch": [
+        "data/enmap.sqlite-shm",
+        "/home/bots/ChiBot/DataStore/SavedRoles/SavedRoles.json",
+        "/home/bots/ChiBot/DataStore/Warnings/Warnings/Warnings.json"
+    ],
+    "watch_options": {
+        "followSymlinks": false
+    }
+}

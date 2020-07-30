@@ -1,0 +1,69 @@
+const { bot, defaultSettings } = require("../ChiBot");
+const moment = require("moment");
+const ms = require("ms");
+const botAudits = require("../DataStore/Config/botAudits.json");
+const Discord = require("discord.js");
+
+bot.on("userUpdate", async (oldUser, newUser) => {
+
+    var usernameEmbed = null
+    var discrimEmbed = null
+    var avatarEmbed = null
+
+    bot.guilds.cache.forEach(async function (guild, guildid) {
+        guild.members.cache.forEach(async function (member, memberid) {
+            if (newUser.id === memberid) {
+
+                const modLogChannel = guild.channels.cache.find(ch => ch.id === bot.settings.get(guild.id, "modLogChannel"));
+                if (!modLogChannel) return;
+                const guildConf = await bot.settings.ensure(guild.id, defaultSettings);
+                if (guildConf.shouldLog === 'false') return;
+
+                if (oldUser.username !== newUser.username) {
+
+                    usernameEmbed = new Discord.MessageEmbed()
+                        .setDescription(`**Username Changed**`)
+                        .setAuthor(`${newUser.username}`, `${botAudits.Usernamechange.Image}`)
+                        .addFields(
+                            { name: "Old Username", value: `**${oldUser.username}**`, inline: true },
+                            { name: "New Username", value: `**${newUser.username}**`, inline: true }
+                        )
+                        .setTimestamp(new Date())
+                        .setColor(botAudits.Usernamechange.Color);
+
+                }
+
+                if (oldUser.discriminator !== newUser.discriminator) {
+
+                    discrimEmbed = new Discord.MessageEmbed()
+                        .setDescription(`**Discriminator Changed**`)
+                        .setAuthor(`${newUser.username}`, `${botAudits.Discrimchange.Image}}`)
+                        .addFields(
+                            { name: "Old Discriminator", value: `**${oldUser.discriminator}**`, inline: true },
+                            { name: "New Discriminator", value: `**${newUser.discriminator}**`, inline: true }
+                        )
+                        .setTimestamp(new Date())
+                        .setColor(botAudits.Discrimchange.Color);
+
+                }
+
+                if (oldUser.avatar !== newUser.avatar) {
+
+                    avatarEmbed = new Discord.MessageEmbed()
+                        .setAuthor(`${newUser.username}`, `${botAudits.Avatarchange.Image}`)
+                        .addFields(
+                            { name: "Old Avatar", value: `⬇️` }
+                        )
+                        .setTimestamp(new Date())
+                        .setThumbnail(newUser.displayAvatarURL({ dynamic: true }))
+                        .setImage(newUser.displayAvatarURL({ dynamic: true }))
+                        .setColor(botAudits.Avatarchange.Color);
+                }
+
+                if (usernameEmbed) modLogChannel.send({ embed: usernameEmbed })
+                if (discrimEmbed) modLogChannel.send({ embed: discrimEmbed })
+                if (avatarEmbed) modLogChannel.send({ embed: avatarEmbed })
+            }
+        })
+    })
+})
