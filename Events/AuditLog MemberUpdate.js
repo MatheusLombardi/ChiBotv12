@@ -7,9 +7,9 @@ const Discord = require("discord.js");
 let options = { trackroles: true }
 
 bot.on("guildMemberUpdate", async (oldMember, newMember) => {
-    const modLogChannel = oldMember.guild.channels.cache.find(ch => ch.id === bot.settings.get(oldMember.guild.id, "modLogChannel"));
+    const modLogChannel = newMember.guild.channels.cache.find(ch => ch.id === bot.settings.get(newMember.guild.id, "modLogChannel"));
     if (!modLogChannel) return;
-    const guildConf = await bot.settings.ensure(oldMember.guild.id, defaultSettings);
+    const guildConf = await bot.settings.ensure(newMember.guild.id, defaultSettings);
     if (guildConf.shouldLog === 'false') return;
 
     if (!options) {
