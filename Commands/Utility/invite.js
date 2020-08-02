@@ -10,7 +10,10 @@ module.exports = {
     aliases: ["inv"],
     run: async (bot, message, args, guildConf) => {
         message.delete();
-        message.channel.createInvite({
+
+        if (!guildConf.rulesChannel) return message.reply(`No rules channel set, Invites cannot be created.`);
+
+        message.guild.channels.cache.get(guildConf.rulesChannel).createInvite({
             temporary: true,
             maxAge: 600,
             maxUses: 1,

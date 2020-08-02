@@ -5,9 +5,9 @@ const Discord = require("discord.js");
 
 const profanity = [
     /n[i1]gg?[e3]r[s\$]?/i,
-    /(ph|f)[a@]g[s\$]?/i,
-    /(ph|f)[a@]gg[s\$]?/i,
-    /(ph|f)[a@]gg?[o0][t\+][s\$]?/i,
+    /(ph|f)[a@]g[s\$]?(?![A-Z])/i,
+    /(ph|f)[a@]gg[s\$]?(?![A-Z])/i,
+    /(ph|f)[a@]gg?[o0][t\+][s\$]?(?![A-Z])/i,
     /w[i1]gg[e3]r[s]?/i,
     /w[e3]tb[a@]ck[s]?/i,
     /dyke[s]?/i,

@@ -34,7 +34,7 @@ module.exports = {
 
         const RoleList = new Discord.MessageEmbed()
             .setTitle(`**${message.guild.name}'s Roles**`)
-            .setDescription(FilterRoles)
+            .setDescription(Discord.escapeMarkdown(FilterRoles))
             .addField("To Assign a role:", `${guildConf.prefix}role rolename`)
             .addField("To Remove a Role:", `${guildConf.prefix}rmrole rolename`)
             .setColor(config.bot_color);
