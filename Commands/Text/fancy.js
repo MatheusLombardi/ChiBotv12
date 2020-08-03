@@ -11,19 +11,6 @@ module.exports = {
     cooldown: "15",
     aliases: [],
     run: async (bot, message, args, guildConf) => {
-        if (message.author.id !== "101789503634554880") return;
-
-        let string = args.join(" ");
-
-        if (!string) return message.reply(`Sorry, Can't fancify nothing, Provide text!`);
-
-        let numPad = 8;
-        numPad -= string.length / 2;
-        if (numPad <= 1) {
-            numPad = 1
-        }
-
-        let padding = "─".repeat(numPad / 2);
 
         fancytext = function (text) {
             return text.split('').map(function (a) {
@@ -31,7 +18,20 @@ module.exports = {
             }).join(' ');
         }
 
-        message.channel.send(`**»─${padding}**${fancytext(string)}**${padding}─«**`)
+        let string = fancytext(args.join(" "));
+        let padding;
+        let numPad = 18;
+        numPad -= string.length / 2;
 
+        if (!string) return message.reply(`Sorry, Can't fancify nothing, Provide text!`);
+
+        try {
+            if (numPad > 1) { padding = "─".repeat(numPad / 2); } else {
+                padding = "─".repeat(0);
+            }
+            message.channel.send(`**◇»─${padding}**${string}**${padding}─«◇**`)
+        } catch (error) {
+            console.error(error);
+        }
     }
 };
